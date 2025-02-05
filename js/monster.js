@@ -37,9 +37,11 @@ class Monster {
         // 加载怪物图片
         this.sprite = new Image();
         if (this.isBoss) {
-            this.sprite.src = '/image/Monster/Boss.png';
+            this.sprite.src = '/image/Monster/boss.png';
         } else {
-            this.sprite.src = `/image/Monster/${this.type}.png`;
+            // 确保类型名称的第一个字母小写
+            const fileName = this.type.toLowerCase() + '.png';
+            this.sprite.src = `/image/Monster/${fileName}`;
         }
         // 设置图片显示大小（保持碰撞体积不变）
         this.spriteWidth = this.size * 2;  // 图像宽度为碰撞体积的2倍

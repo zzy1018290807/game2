@@ -30,9 +30,9 @@ class Pet {
         // 特殊攻击的图片
         this.specialAttackSprite = new Image();
         if (type === 'goldenPig') {
-            this.specialAttackSprite.src = '/image/Effect/Freezeeffect.png';
+            this.specialAttackSprite.src = '/image/Effect/freezeeffect.png';
         } else if (type === 'dragon') {
-            this.specialAttackSprite.src = '/image/Effect/Fireball.png';
+            this.specialAttackSprite.src = '/image/Effect/fireball.png';
         }
     }
 
