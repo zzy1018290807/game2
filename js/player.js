@@ -63,10 +63,10 @@ class Player {
             purple: new Image(),
             orange: new Image()
         };
-        this.weaponSprite.white.src = 'image/white_knife.png';
-        this.weaponSprite.blue.src = 'image/blue_knife.png';
-        this.weaponSprite.purple.src = 'image/purple_knife.png';
-        this.weaponSprite.orange.src = 'image/orange_knife.png';
+        this.weaponSprite.white.src = '/image/White_knife.png';
+        this.weaponSprite.blue.src = '/image/Blue_knife.png';
+        this.weaponSprite.purple.src = '/image/Purple_knife.png';
+        this.weaponSprite.orange.src = '/image/Orange_knife.png';
         this.weaponSize = { width: 20, height: 40 }; // 武器图片的显示大小
 
         // 技能系统
@@ -109,13 +109,13 @@ class Player {
 
         // 加载角色图像
         this.sprite = new Image();
-        this.sprite.src = 'image/Charactor.png';
+        this.sprite.src = '/image/Charactor.png';
         // 加载超级赛亚人图像
         this.superSprite = new Image();
-        this.superSprite.src = 'image/Superman.png';
+        this.superSprite.src = '/image/Superman.png';
         // 加载冰冻特效图像
         this.freezeEffect = new Image();
-        this.freezeEffect.src = 'image/effect/Freezeeffect.png';
+        this.freezeEffect.src = '/image/Effect/Freezeeffect.png';
         // 设置图像显示大小（保持碰撞体积不变）
         this.spriteWidth = this.size * 3;  // 图像宽度为碰撞体积的4倍
         this.spriteHeight = this.size * 3; // 图像高度为碰撞体积的4倍

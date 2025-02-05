@@ -17,22 +17,22 @@ class Pet {
         this.sprite = new Image();
         switch(type) {
             case 'celestialDog': // 哮天犬
-                this.sprite.src = 'image/pets/celestialDog.png';
+                this.sprite.src = '/image/Pets/CelestialDog.png';
                 break;
             case 'goldenPig': // 金猪
-                this.sprite.src = 'image/pets/goldenPig.png';
+                this.sprite.src = '/image/Pets/GoldenPig.png';
                 break;
             case 'dragon': // 神龙
-                this.sprite.src = 'image/pets/dragon.png';
+                this.sprite.src = '/image/Pets/Dragon.png';
                 break;
         }
         
         // 特殊攻击的图片
         this.specialAttackSprite = new Image();
         if (type === 'goldenPig') {
-            this.specialAttackSprite.src = 'image/effect/freezeeffect.png';
+            this.specialAttackSprite.src = '/image/Effect/Freezeeffect.png';
         } else if (type === 'dragon') {
-            this.specialAttackSprite.src = 'image/effect/fireball.png';
+            this.specialAttackSprite.src = '/image/Effect/Fireball.png';
         }
     }
 

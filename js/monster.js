@@ -37,9 +37,9 @@ class Monster {
         // 加载怪物图片
         this.sprite = new Image();
         if (this.isBoss) {
-            this.sprite.src = 'image/Monstor/boss.png';
+            this.sprite.src = '/image/Monster/Boss.png';
         } else {
-            this.sprite.src = `image/Monstor/${this.type}.png`;
+            this.sprite.src = `/image/Monster/${this.type}.png`;
         }
         // 设置图片显示大小（保持碰撞体积不变）
         this.spriteWidth = this.size * 2;  // 图像宽度为碰撞体积的2倍
@@ -48,14 +48,14 @@ class Monster {
         // 加载激光特效图片
         if (this.type === 'laser') {
             this.laserEffect = new Image();
-            this.laserEffect.src = 'image/Effect/Lasereffect.png';
+            this.laserEffect.src = '/image/Effect/Lasereffect.png';
             this.laserWidth = 40; // 激光宽度
         }
 
         // 加载爆炸特效图片
         if (this.type === 'explosive') {
             this.explosionEffect = new Image();
-            this.explosionEffect.src = 'image/Effect/Explosive.png';
+            this.explosionEffect.src = '/image/Effect/Explosive.png';
         }
     }
 

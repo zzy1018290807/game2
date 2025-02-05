@@ -24,7 +24,7 @@ class Game {
 
         // 加载背景图片
         this.background = new Image();
-        this.background.src = 'image/Background.png';
+        this.background.src = '/image/Background.png';
         
         // 鼠标位置
         this.mousePosition = { x: this.canvas.width / 2, y: this.canvas.height / 2 };
