@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>凡人修仙模拟器</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 16px;
+            pointer-events: none;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+        }
+        #stats {
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        #equipment {
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        #equipment .item {
+            display: block;
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        #equipment .white {
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
+        #equipment .blue {
+            color: #0000ff;
+            text-shadow: 0 0 5px rgba(0,0,255,0.5);
+        }
+        #equipment .purple {
+            color: #800080;
+            text-shadow: 0 0 5px rgba(128,0,128,0.5);
+        }
+        #equipment .orange {
+            color: #ffa500;
+            text-shadow: 0 0 5px rgba(255,165,0,0.5);
+        }
+        #equipment .legendary {
+            color: #ffd700;
+            text-shadow: 0 0 5px rgba(255,215,0,0.5);
+        }
+        #skills {
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .skill {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            margin-right: 10px;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+            position: relative;
+        }
+        .skill.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .skill-cooldown {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: rgba(0,0,0,0.5);
+            border-radius: 0 0 5px 5px;
+            transition: height 0.1s linear;
+        }
+        #shop {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            pointer-events: auto;
+        }
+        #shopItems {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .shop-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .shop-item:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        #mathQuestion {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            pointer-events: auto;
+        }
+        button {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        input {
+            padding: 5px;
+            margin: 10px 0;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="ui">
+        <div id="stats">
+            <div>等级: <span id="level">1</span></div>
+            <div>经验: <span id="exp">0</span> / <span id="nextExp">100</span></div>
+            <div>生命: <span id="hp">100</span> / <span id="maxHp">100</span></div>
+            <div>攻击: <span id="attack">10</span></div>
+            <div>防御: <span id="defense">0</span></div>
+            <div>金币: <span id="gold">0</span></div>
+        </div>
+        <div id="equipment">
+            <div>武器: <span id="weapon" class="item white">白色武器</span></div>
+            <div>护甲: <span id="chest" class="item">无</span></div>
+            <div>戒指: <span id="ring" class="item">无</span></div>
+            <div>鞋子: <span id="boots" class="item">无</span></div>
+        </div>
+        <div id="skills">
+            <div id="skill-Q" class="skill locked">Q<div class="skill-cooldown"></div></div>
+            <div id="skill-W" class="skill locked">W<div class="skill-cooldown"></div></div>
+            <div id="skill-E" class="skill locked">E<div class="skill-cooldown"></div></div>
+        </div>
+    </div>
+
+    <div id="shop">
+        <h2>商店 <span style="font-size: 14px;">(按ESC关闭)</span></h2>
+        <div id="shopItems"></div>
+        <button onclick="closeShop()">关闭</button>
+    </div>
+
+    <div id="mathQuestion">
+        <h2>答对题目继续游戏</h2>
+        <div id="question"></div>
+        <input type="number" id="answer">
+        <button onclick="checkAnswer()">提交</button>
+    </div>
+
+    <script>
+        function closeShop() {
+            document.getElementById('shop').style.display = 'none';
+            window.game.paused = false;
+        }
+
+        function checkAnswer() {
+            const answer = parseInt(document.getElementById('answer').value);
+            const mathQuestion = document.getElementById('mathQuestion');
+            
+            if (answer === window.game.player.mathAnswer) {
+                mathQuestion.style.display = 'none';
+                window.game.player.revive();  // 恢复保存的状态
+                document.getElementById('answer').value = '';
+                window.game.paused = false;  // 继续游戏
+            } else {
+                mathQuestion.style.display = 'none';
+                document.getElementById('answer').value = '';
+                // 保存金币到存档
+                window.menu.saveData.addGold(window.game.player._gold);
+                // 更新主菜单显示
+                window.menu.updateDisplay();
+                // 重置游戏状态
+                window.game.player.resetAllStats();
+                window.game.monsters = [];
+                // 显示主菜单
+                document.getElementById('mainMenu').style.display = 'block';
+                document.getElementById('ui').style.display = 'none';
+                window.game.paused = true;
+            }
+        }
+    </script>
+
+    <script src="js/player.js"></script>
+    <script src="js/monster.js"></script>
+    <script src="js/saveData.js"></script>
+    <script src="js/pet.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/game.js"></script>
+    <script>
+        // 初始化存档数据
+        const saveData = new SaveData();
+        // 启动菜单
+        window.onload = () => {
+            Menu.showMenu();
+        };
+    </script>
+</body>
+</html>
